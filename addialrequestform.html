@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<style>
+.error {color: #FF0000;}
+</style><title>addialrequestform</title>
+
+<link rel="stylesheet" type="text/css" href="styles.css"></head>
+<body style="color: rgb(0, 0, 211); background-color: rgb(255, 255, 204);" alink="#000099" link="#000099" vlink="#990099">
+<?php // define variables and set to empty values
+$nameErr = $emailErr = $genderErr = $websiteErr = "";
+$name = $email = $gender = $comment = $website = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (empty($_POST["name"])) {
+$nameErr = "Name is required";
+} else {
+$name = test_input($_POST["name"]);
+// check if name only contains letters and whitespace
+if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
+$nameErr = "Only letters and white space allowed"; }
+}
+if (empty($_POST["email"])) {
+$emailErr = "Email is required";
+} else {
+$email = test_input($_POST["email"]);
+// check if e-mail address syntax is valid
+if (!preg_match("/([\w\-]+\@[\w\-]+\.[\w\-]+)/",$email)) {
+$emailErr = "Invalid email format";
+}
+}
+if (empty($_POST["website"])) {
+$website = "";
+} else {
+$website = test_input($_POST["website"]);
+// check if URL address syntax is valid (this regular expression also allows dashes in the URL)
+if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$website)) {
+$websiteErr = "Invalid URL"; }
+}
+if (empty($_POST["comment"])) {
+$comment = "";
+} else {
+$comment = test_input($_POST["comment"]);
+}
+if (empty($_POST["gender"])) {
+$genderErr = "Gender is required";
+} else {
+$gender = test_input($_POST["gender"]);
+}
+}
+function test_input($data) {
+$data = trim($data);
+$data = stripslashes($data);
+$data = htmlspecialchars($data);
+return $data;
+}
+?>
+<h2 style="font-weight: bold; text-align: center; color: rgb(55, 22, 255);"><big><big>Addials
+Service Request Form</big></big></h2>
+<p style="color: rgb(55, 22, 255); text-align: center;"><span class="error"><img style="width: 243px; height: 85px;" alt="Dial4dough" src="../../../Users/Heads/Documents/Dial%20For%20Dough/d4dlogo.png"><br></span></p><div style="text-align: center;">
+<div style="text-align: left; margin-left: 295px; width: 1308px;"><form style="margin-left: 292px; width: 930px;" method="post" action="http://localhost:port8889" name="Service Request Form"><div style="text-align: left;"><div style="text-align: left;"><big><big><span style="font-weight: bold;">Company Name:</span></big>&nbsp;</big><input maxlength="255" size="20" tabindex="1" name="Company Name"> <span class="error">*<?php echo $nameErr;?></span><br></div><span class="error"></span></div><span class="error">
+<br>
+<big><big style="color: rgb(51, 51, 255);"><span style="font-weight: bold;">Representative's name</span></big><span style="font-weight: bold;">:
+</span></big><input maxlength="255" size="15" tabindex="2" name="Representative Name"> *<br>
+</span>
+<br><big><span style="font-weight: bold;"><big>
+E-mail:</big> </span></big><input name="email">
+<span class="error">*<?php echo $emailErr;?> </span>
+<br>
+<br><big><big><span style="font-weight: bold;">
+Website: </span><input style="font-weight: bold;" name="website"><span style="font-weight: bold;">
+</span><span style="font-weight: bold;" class="error"><?php echo $websiteErr;?></span><br style="font-weight: bold;"></big><br style="font-weight: bold;"><big><span style="font-weight: bold;">
+Street address: </span><input style="font-weight: bold;" name="Street" street="" address="" text=""><span style="font-weight: bold;" class="error">*<?php echo $streetErr;?></span><span style="font-weight: bold;">
+</span><br style="font-weight: bold;"></big><br style="font-weight: bold;"><span style="font-weight: bold;"><big>
+City:</big> </span><input style="font-weight: bold;" name="City" error=""><span style="color: red; font-weight: bold;">*</span><?php echo $cityErr;?>
+<br><br><big><span style="font-weight: bold;">
+Zip:</span> </big><input name="Zip">
+<span class="error">*<?php echo $zipErr;?></span>
+<br><br><big><span style="font-weight: bold;">
+State:</span> <input name="State"></big>
+<span class="error">*<?php echo $stateErr;?></span>
+<br><big><br><span style="font-weight: bold;">
+Bussiness Phone</span> </big><input name="Business Phone">
+<span class="error">*<?php echo $busphoneErr;?></span>
+<br><br><big><span style="font-weight: bold;">
+Addial Type:
+</span><select style="font-weight: bold;" name="Type Addial"><option>Recorded Audio</option><option>Live Audio</option><option>Video or Youtube</option><option>Website Views</option><option></option></select><br style="font-weight: bold;"></big><br><big><span style="font-weight: bold;">
+Upload file:
+</span><label style="font-weight: bold;" for="file">Filename:</label><span style="font-weight: bold;">
+</span><input style="font-weight: bold;" name="file" id="file" type="file"><br style="font-weight: bold;"></big></big>
+
+
+
+
+
+
+
+<br>
+</form>
+<br>
+<br><div style="text-align: left;"><big><big><span style="font-weight: bold;">
+Geo Location </span></big></big><input name="Geo Location">
+<span class="error">*<?php echo $geolocationErr;?></span>
+<br>
+<br><big><big><span style="font-weight: bold;">
+Comment: </span></big></big><textarea name="comment" rows="5" cols="40"></textarea>
+<br>
+<br><big><big><span style="font-weight: bold;">
+Gender:
+</span><input style="font-weight: bold;" name="gender" type="radio"><?php if (isset($gender) && $gender=="female") echo "checked";?><span style="font-weight: bold;">Female</span>
+<input name="gender" type="radio"><?php if (isset($gender) && $gender=="male") echo "checked";?><span style="font-weight: bold;">Male</span>
+<span class="error">*<?php echo $genderErr;?> </span><br></big></big>
+</div></div>
+<br><div style="text-align: left;"><span class="error">*
+required field.</span><input name="submit" value="Submit" type="submit"></div></div>
+</body></html>
